@@ -14,8 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class MemStore {
 
-    private static final MemStore INST = new MemStore();
-
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final AtomicInteger userCount = new AtomicInteger(0);
@@ -26,10 +24,6 @@ public class MemStore {
         users.put(userCount.incrementAndGet(), new User(userCount.get(), "user", "password"));
         posts.put(postCount.get(), Post.of("Правила форума"));
         posts.put(postCount.incrementAndGet(), Post.of("Продам авто"));
-    }
-
-    public static MemStore instOf() {
-        return INST;
     }
 
     public Optional<User> findUserByName(String name) {

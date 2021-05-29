@@ -7,7 +7,12 @@ import ru.af3412.forum.store.MemStore;
 
 @Controller
 public class IndexControl {
-    private final MemStore store = MemStore.instOf();
+
+    private final MemStore store;
+
+    public IndexControl(MemStore store) {
+        this.store = store;
+    }
 
     @GetMapping({"/", "/index"})
     public String index(Model model) {

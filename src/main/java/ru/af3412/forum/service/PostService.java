@@ -10,17 +10,21 @@ import java.util.List;
 @Service
 public class PostService {
 
-    private final MemStore store = MemStore.instOf();
+    private final MemStore memStore;
+
+    public PostService(MemStore memStore) {
+        this.memStore = memStore;
+    }
 
     public List<Post> getAll() {
-        return store.getAllPosts();
+        return memStore.getAllPosts();
     }
 
     public Post getById(int id) {
-        return store.getPostById(id);
+        return memStore.getPostById(id);
     }
 
     public void save(Post post) {
-        store.addPost(post);
+        memStore.addPost(post);
     }
 }

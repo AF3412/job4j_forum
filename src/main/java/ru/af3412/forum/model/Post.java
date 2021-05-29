@@ -13,6 +13,11 @@ public class Post {
     private String name;
     private String description;
     private Calendar created;
+    @ManyToOne
+    @JoinTable(name = "user_posts",
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private User user;
 
     public static Post of(String name) {
         Post post = new Post();
@@ -59,6 +64,14 @@ public class Post {
 
     public void setCreated(Calendar created) {
         this.created = created;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

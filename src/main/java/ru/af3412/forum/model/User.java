@@ -14,7 +14,14 @@ public class User {
     private int id;
     private String username;
     private String password;
+    @ManyToOne
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
+    private boolean enabled;
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_posts",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "post_id")})
     private final List<Post> posts = new ArrayList<>();
 
     public User() {
@@ -57,6 +64,22 @@ public class User {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
     }
 
     @Override

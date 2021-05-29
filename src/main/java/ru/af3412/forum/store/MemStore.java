@@ -1,6 +1,5 @@
 package ru.af3412.forum.store;
 
-import org.springframework.stereotype.Repository;
 import ru.af3412.forum.model.Post;
 import ru.af3412.forum.model.User;
 
@@ -11,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Repository
+//@Repository
 public class MemStore {
 
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
@@ -42,7 +41,7 @@ public class MemStore {
     public List<Post> getAllPosts() {
         List<Post> result = new ArrayList<>();
         posts.forEach(
-                (k, v) -> result.add(Post.of(k, v.getName(), v.getDesc(), v.getCreated()))
+                (k, v) -> result.add(Post.of(k, v.getName(), v.getDescription(), v.getCreated()))
         );
         return result;
     }

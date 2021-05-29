@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.af3412.forum.model.User;
-import ru.af3412.forum.store.MemStore;
+import ru.af3412.forum.service.UserService;
 
 import java.util.Optional;
 
 @Controller
 public class LoginControl {
 
-    private final MemStore store;
+    private final UserService userService;
 
-    public LoginControl(MemStore store) {
-        this.store = store;
+    public LoginControl(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -31,7 +31,7 @@ public class LoginControl {
 
     @PostMapping("/login")
     public String userLogin(@ModelAttribute User user) {
-        Optional<User> exist = store.findUserByName(user.getUsername());
+        Optional<User> exist = userService.findByName(user);
         if (exist.isPresent() && exist.get().getPassword().equals(user.getPassword())) {
             return "redirect:/index";
         }

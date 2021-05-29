@@ -5,16 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.af3412.forum.model.User;
-import ru.af3412.forum.store.MemStore;
+import ru.af3412.forum.service.UserService;
 
 @Controller
 public class RegControl {
 
+    private final UserService userService;
 
-    private final MemStore store;
-
-    public RegControl(MemStore store) {
-        this.store = store;
+    public RegControl(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping({"/reg"})
@@ -24,7 +23,7 @@ public class RegControl {
 
     @PostMapping({"/reg"})
     public String regUser(@ModelAttribute User user) {
-        store.addUser(user);
+        userService.save(user);
         return "redirect:/login";
     }
 

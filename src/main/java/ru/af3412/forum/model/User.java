@@ -1,15 +1,21 @@
 package ru.af3412.forum.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String username;
     private String password;
-    private List<Post> posts = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY)
+    private final List<Post> posts = new ArrayList<>();
 
     public User() {
     }

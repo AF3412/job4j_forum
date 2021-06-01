@@ -28,12 +28,16 @@ public class LoginControl {
     @GetMapping("/login")
     public String getLoginPage(@RequestParam(value = "error", required = false) boolean error,
                                @RequestParam(value = "logout", required = false) boolean logout,
+                               @RequestParam(value = "exist", required = false) boolean exist,
                                Model model) {
         if (error) {
             model.addAttribute("errorMessage", "User not found or incorrect password");
         }
         if (logout) {
             model.addAttribute("errorMessage", "You have been successfully logged out");
+        }
+        if (exist) {
+            model.addAttribute("errorMessage", "User is already registered");
         }
         return "login";
     }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.af3412.forum.config.SessionUserConfig;
 import ru.af3412.forum.model.User;
 import ru.af3412.forum.store.MemStore;
 
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class LoginControl {
 
     private final MemStore store;
+    private final SessionUserConfig sessionUserConfig;
 
-    public LoginControl(MemStore store) {
+    public LoginControl(MemStore store, SessionUserConfig sessionUserConfig) {
         this.store = store;
+        this.sessionUserConfig = sessionUserConfig;
     }
 
     @GetMapping("/login")
@@ -33,6 +36,8 @@ public class LoginControl {
     public String userLogin(@ModelAttribute User user) {
         Optional<User> exist = store.findUserByName(user.getUsername());
         if (exist.isPresent() && exist.get().getPassword().equals(user.getPassword())) {
+            User sessionUser = sessionUserConfig.getUser();
+            sessionUser.setUsername(exist.get().getUsername());
             return "redirect:/index";
         }
         return "redirect:/login?error=true";
